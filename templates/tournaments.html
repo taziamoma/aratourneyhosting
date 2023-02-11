@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <div class="container">
+
+        <div class="row">
+            <div class="col-xs-6">
+                <div class="container ontent">
+                    <div class="row">
+                        <div class="col">
+                            <h1 class="text-center mt-5">Tournaments</h1>
+
+                            {% if message_id %}
+                                {% if message_id == 1 %}
+                                    <div class="alert alert-success" role="alert">
+                                        {% for message in messages %}
+                                            {{ message }}
+                                        {% endfor %}
+                                    </div>
+
+                                {% elif message_id == 2 %}
+                                    <div class="alert alert-danger" role="alert">
+                                        {% for message in messages %}
+                                            {{ message }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            {% endif %}
+                            <div class="row mt-5">
+
+
+                                {% for tournament in tournaments %}
+                                    <div class="container mt-3">
+                                        <h2>{{ tournament.name }}</h2>
+                                        <p>Entry fee: ${{ tournament.entry_fee }}</p>
+                                        <p>Tournament start date: {{ tournament.date }}</p>
+                                        <p>Respin Price: ${{ tournament.respins_fee }}</p>
+                                        <p>Respin Start Time: {{ tournament.respins_start_time }}</p>
+                                        <p>Respin End Time: {{ tournament.respins_end_time }}</p>
+                                        {% if profile in tournament.profiles.all %}
+                                            <a href="{% url 'tournament_detail' tournament.id %}"
+                                               class="btn btn-success">View</a>
+
+                                        {% else %}
+                                            <p>You have not paid the entry fee for this tournament. Would you like to
+                                                pay now?</p>
+                                            <!-- Set up a container element for the button -->
+
+                                            <a href="{% url 'tournament_payment' tournament.id %}"
+                                               class="btn btn-primary">Pay now ${{ tournament.entry_fee }}</a>
+
+                                        {% endif %}
+                                    </div>
+                                {% endfor %}
+
+
+                            </div> <!-- end row-mt5 -->
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block content %}
+ <div class="container">
+
+        <div class="row">
+            <div class="col-xs-6">
+                <div class="container ontent">
+                    <div class="row">
+                        <div class="col">
+                            <h1 class="text-center mt-5">Team Assignments</h1>
+                            <div class="row mt-5">
+                                <div class="container mt-3">
+
+                                    <div class="container mt-3">
+{#                                        <form id="random-form" action="{% url 'randomize_teams' tournament.id %}" method="post">#}
+                                        <form id="random-form" action="https://www.paypal.com/cgi-bin/webscr" method="post">
+                                            {% csrf_token %}
+                                            {{ paypal_form.as_p }}
+                                            <button type="submit" class="btn btn-success" id="respin-button">${{ tournament.respins_fee }} Respin
+                                            </button>
+                                        </form>
+
+                                    </div>
+
+                                </div>
+
+                                {% for team in teams %}
+
+                                    <div class="col-md-3">
+                                        <div class="team-container">
+                                            <h2 class="team-title">Team {{ team.id }}</h2>
+                                            <ul class="team-members">
+                                                <p>{% for player in team.players.all %}</p>
+                                                    {{ player.user }}
+
+                                                    {% if player.team_number == team.id|add:"-1" %}
+                                                        <li>{{ player.gamertag}}</li>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+
+
+                            </div> <!-- end row-mt5 -->
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}
